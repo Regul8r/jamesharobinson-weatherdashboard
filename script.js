@@ -11,21 +11,20 @@ document.getElementById("getWeather").addEventListener("click", function() {
 
 
     fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("City not found");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Update HTML with fetched data
-            document.getElementById("cityName").textContent = data.name;
-            document.getElementById("temperature").textContent = `Temperature: ${data.main.temp}°C`;
-            document.getElementById("description").textContent = data.weather[0].description;
-            document.getElementById("weatherIcon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
-        })
-        .catch(error => {
-            alert("Could not retrieve weather data. Please try again.");
-            console.error(error);
-        });
-});
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("City not found");  // This will handle cities that don’t exist
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Populate HTML elements with data
+        document.getElementById("cityName").textContent = data.name;
+        document.getElementById("temperature").textContent = `Temperature: ${data.main.temp}°C`;
+        document.getElementById("description").textContent = data.weather[0].description;
+        document.getElementById("weatherIcon").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    })
+    .catch(error => {
+        alert("Could not retrieve weather data. Please check the city name and try again.");
+        console.error(error);
+    });
